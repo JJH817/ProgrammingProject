@@ -116,9 +116,7 @@ public class PanelClass extends JFrame {
                         repaint(); // Trigger repaint to reflect the color change
                         remainingPanels--;
 
-                        if (remainingPanels == 0) {
-                            JOptionPane.showMessageDialog(null, "All panels selected. You can't click anymore.");
-                        }
+                        
                     }
                 }
             }
@@ -135,7 +133,6 @@ public class PanelClass extends JFrame {
                 // Schedule the message dialog to ensure it appears after the label is updated
                 SwingUtilities.invokeLater(() -> {
                     if (remainingPanels == 0) {
-                        JOptionPane.showMessageDialog(null, "All panels selected. You can't click anymore.");
                         JOptionPane.showMessageDialog(null, selectionLabel);
                     }
                 });

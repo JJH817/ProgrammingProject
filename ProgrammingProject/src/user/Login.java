@@ -21,8 +21,6 @@ public class Login extends JFrame {
 	private JTextField phonetextField;
 	private JTextField birthtextField;
 	private JTextField emailtextField;
-	private JButton loginButton, joinButton;
-	private JLabel loginbtnLogo, loginbtnSearch; 
 	
 	public static String id = "";
 	public static String password = "";
@@ -51,6 +49,46 @@ public class Login extends JFrame {
 		
 		JPanel login = new JPanel();
 		login.setBackground(new Color(255, 255, 255));
+		layeredPane.add(login, "");
+		login.setLayout(null);
+
+		JLabel id_label = new JLabel("아이디");
+		id.setFont(new Font("폰트 이름", Font.BOLD, 30));
+		id.setBounds(EXIT_ON_CLOSE, ABORT, WIDTH, HEIGHT);
+		login.add(id);
+		
+		JLabel password_label = new JLabel("비밀번호");
+		id.setFont(new Font("폰트 이름", Font.BOLD, 30));
+		id.setBounds(EXIT_ON_CLOSE, ABORT, WIDTH, HEIGHT);
+		login.add(password);
+		
+		idTextField = new JTextField();
+		idTextField.setFont(new Font("폰트 이름", Font.BOLD, 30));
+		idTextField.setBounds(EXIT_ON_CLOSE, ABORT, WIDTH, HEIGHT);
+		login.add(idTextField);
+		
+		passwordTextField = new JPasswordField();
+		passwordTextField.setFont(new Font("폰트 이름", Font.BOLD, 30));
+		passwordTextField.setBounds(EXIT_ON_CLOSE, ABORT, WIDTH, HEIGHT);
+		login.add(passwordTextField);
+		
+		JButton loginbtn = new JButton("로그인");
+		loginbtn.setBackground(new Color(211, 211, 211));
+		loginbtn.setForeground(Color.WHITE);
+		loginbtn.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				id = idTextField.getText();
+				password = passwordTextField.getText();
+				
+				// 로그인 데이터베이스
+				
+				System.out.println("로그인 성공 or 실패" ); // + 로그인 정보 데이터베이스 결과
+				
+			}
+		});
+		
 		
 		try {
 			

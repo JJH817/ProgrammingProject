@@ -27,7 +27,7 @@ public class Login extends JFrame {
 	private JLabel pwLabel = new JLabel("PASSWORD ");
 	private JTextField idTextField = new JTextField();
 	private JPasswordField pwTextField = new JPasswordField();
-	//private JButton loginBtn = new JButton("LOGIN");
+	private JButton loginBtn = new JButton("LOGIN");
 	private JButton idfindBtn = new JButton("ID FIND");
 	private JButton pwfindBtn = new JButton("PW FIND");
 	private JButton joinBtn = new JButton("JOIN");
@@ -62,7 +62,7 @@ public class Login extends JFrame {
 		idTextField.setBounds(50, 170, 20, 20);
 		idpwPanel.add(idTextField);
 		
-		JButton loginBtn = new JButton("LOGIN");
+		
 		loginBtn.setBounds(400, 200, 200, 200);
 		idpwPanel.add(loginBtn);
 		

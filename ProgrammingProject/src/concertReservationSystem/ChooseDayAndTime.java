@@ -13,23 +13,31 @@ public class ChooseDayAndTime extends JFrame {
 	private List<String> weekendDates = new ArrayList<>(Arrays.asList("2", "3", "9", "10", "16", "17", "23", "24", "30", "31"));
 
 	private String[] day = {
-			"날짜선택","12월 1일","12월 2일","12월 3일","12월 4일","12월 5일","12월 6일","12월 7일","12월 8일","12월 9일","12월 10일","12월 11일",
-			"12월 12일","12월 13일","12월 14일","12월 15일","12월 16일","12월 17일","12월 18일","12월 19일","12월 20일","12월 21일","12월 22일",
-			"12월 23일","12월 24일","12월 25일","12월 25일","12월 26일","12월 27일","12월 28일","12월 29일","12월 30일","12월 31일"
+			"날짜 선택","2023년 12월 1일","2023년 12월 2일","2023년 12월 3일","2023년 12월 4일","2023년 12월 5일","2023년 12월 6일","2023년 12월 7일","2023년 12월 8일",
+			"2023년 12월 9일","2023년 12월 10일","2023년 12월 11일","2023년 12월 12일","2023년 12월 13일","2023년 12월 14일","2023년 12월 15일","2023년 12월 16일",
+			"2023년 12월 17일","2023년 12월 18일","2023년 12월 19일","2023년 12월 20일","2023년 12월 21일","2023년 12월 22일","2023년 12월 23일","2023년 12월 24일",
+			"2023년 12월 25일","2023년 12월 25일","2023년 12월 26일","2023년 12월 27일","2023년 12월 28일","2023년 12월 29일","2023년 12월 30일","2023년 12월 31일"
 	};
-	private String[] time1 = {"시간선택", "A~B", "C~D"};
-	private String[] time2 = {"시간선택", "C~D"};
-	private String[] PeopleCount = {"인원수", "1명", "2명"};
+	private String[] time1 = {"시간 선택", "13:00 ~ 15:00", "19:00 ~ 21:00"};
+	private String[] time2 = {"시간 선택", "19:00 ~ 21:00"};
+	private String[] PeopleCount = {"관람 인원", "1명", "2명"};
 	private JComboBox<String> scheduleDay = new JComboBox<String>(day);
 	private JComboBox<String> scheduleTime1 = new JComboBox<String>(time1);
 	private JComboBox<String> scheduleTime2 = new JComboBox<String>(time2);
 	private JComboBox<String> NumberOfPeople = new JComboBox<String>(PeopleCount);
-	JButton btn = new JButton("다음");
 	
-	//새 프레임 호출.
+	
+	
+	private Font comboBoxFont = new Font(null, Font.PLAIN, 14);
+	
+	
+	
+	private JButton btn = new JButton(" 좌석 선택하기 ");
+	
+	
 	
 	public ChooseDayAndTime() {
-		setTitle("날짜와 시간을 골라주세요.");
+		setTitle("관람일자 선택");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		Container c  = getContentPane();
 		c.setLayout(new FlowLayout());
@@ -74,8 +82,14 @@ public class ChooseDayAndTime extends JFrame {
 			}
         });
 		
-		setSize(720, 480);
+		scheduleDay.setFont(comboBoxFont);
+		scheduleTime1.setFont(comboBoxFont);
+		scheduleTime2.setFont(comboBoxFont);
+		NumberOfPeople.setFont(comboBoxFont);
+		
+		setSize(550, 80);
 		setVisible(true);
+		setLocation(578, 688);
 				
 	}
 		
@@ -94,11 +108,9 @@ public class ChooseDayAndTime extends JFrame {
 		}
 		
 		class MyItemListener implements ItemListener {
-			private String selectedDate;
+			private String selectedDate;			//selected된 각 값이 저장되는 변수
 			private String selectedTime;
 			private String selectedNumberOfPeople;
-			
-			
 			public void itemStateChanged(ItemEvent e) {
 				if (e.getStateChange() == ItemEvent.SELECTED) {
 					JComboBox<String> source = (JComboBox<String>)e.getSource();
@@ -112,7 +124,6 @@ public class ChooseDayAndTime extends JFrame {
 					}
 				}
 			}
-			
 			public String getSelectedDate() {
 				return selectedDate;
 			}

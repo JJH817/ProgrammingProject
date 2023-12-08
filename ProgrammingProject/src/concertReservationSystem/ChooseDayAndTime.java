@@ -89,7 +89,7 @@ public class ChooseDayAndTime extends JFrame {
 		
 		setSize(550, 80);
 		setVisible(true);
-		setLocation(1000, 800);
+		setLocation(578, 688);
 				
 	}
 		

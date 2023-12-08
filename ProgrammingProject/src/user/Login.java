@@ -32,20 +32,6 @@ public class Login extends JFrame {
 	private JButton pwfindBtn = new JButton("PW FIND");
 	private JButton joinBtn = new JButton("JOIN");
 	
-//	private JFrame frame = new JFrame();
-//	private JPanel contentPane;
-//	private JTextField nametextField;
-//	private JTextField phonetextField;
-//	private JTextField birthtextField;
-//	private JTextField emailtextField;
-//	
-//	public static String id = "";			// 로그인 입
-//	public static String password = "";
-//	
-//	public static String name = "";			// 회원가입 입력
-//	public static String phone_num = "";
-//	public static String birth_date = "";
-//	public static String email = "";
 
 	
 	

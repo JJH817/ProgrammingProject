@@ -27,7 +27,7 @@ public class Login extends JFrame {
 	private JLabel pwLabel = new JLabel("PASSWORD ");
 	private JTextField idTextField = new JTextField();
 	private JPasswordField pwTextField = new JPasswordField();
-	private JButton loginBtn = new JButton("LOGIN");
+	//private JButton loginBtn = new JButton("LOGIN");
 	private JButton idfindBtn = new JButton("ID FIND");
 	private JButton pwfindBtn = new JButton("PW FIND");
 	private JButton joinBtn = new JButton("JOIN");
@@ -41,50 +41,52 @@ public class Login extends JFrame {
 		super("LOGIN");
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(500, 500); // 사이즈
-		setTitle("예매 프로그램 로그인");
+		setSize(550, 350); // 사이즈
+		setTitle("예매 프로그램");
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(null);
 		
-		logoPanel.setBounds(EXIT_ON_CLOSE, ABORT, WIDTH, HEIGHT);
+		logoPanel.setBounds(10, 10, 550, 140);
 		getContentPane().add(logoPanel);
 		logoPanel.setBackground(Color.WHITE);
 		
-		idpwPanel.setBounds(EXIT_ON_CLOSE, ABORT, WIDTH, HEIGHT);
+		idpwPanel.setBounds(10, 160, 550, 120);
 		getContentPane().add(idpwPanel);
 		idpwPanel.setBackground(Color.WHITE);
 		
-		idLabel.setFont(new Font(null, ALLBITS, ABORT));
-		idLabel.setBounds(EXIT_ON_CLOSE, ABORT, WIDTH, HEIGHT);
+		idLabel.setFont(new Font(null, 20, 20));
+		idLabel.setBounds(20, 170, 20, 20);
 		idpwPanel.add(idLabel);
 		
-		idTextField.setColumns(10);
-		idTextField.setBounds(EXIT_ON_CLOSE, ABORT, WIDTH, HEIGHT);
+		idTextField.setColumns(20);
+		idTextField.setBounds(50, 170, 20, 20);
 		idpwPanel.add(idTextField);
 		
-		loginBtn.setBounds(EXIT_ON_CLOSE, ABORT, WIDTH, HEIGHT);
+		JButton loginBtn = new JButton("LOGIN");
+		loginBtn.setBounds(400, 200, 200, 200);
 		idpwPanel.add(loginBtn);
 		
-		pwTextField.setColumns(10);
-		pwTextField.setBounds(EXIT_ON_CLOSE, ABORT, WIDTH, HEIGHT);
-		idpwPanel.add(pwTextField);
-		
-		pwLabel.setFont(new Font(null, ALLBITS, ABORT));
-		pwLabel.setBounds(EXIT_ON_CLOSE, ABORT, WIDTH, HEIGHT);
+		pwLabel.setFont(new Font(null, 20, 20));
+		pwLabel.setBounds(20, 220, 20, 20);
 		idpwPanel.add(pwLabel);
 		
-		joinfindPanel.setBounds(EXIT_ON_CLOSE, ABORT, WIDTH, HEIGHT);
+		pwTextField.setColumns(20);
+		pwTextField.setBounds(50, 220, 20, 20);
+		idpwPanel.add(pwTextField);
+		
+		
+		
+		joinfindPanel.setBounds(10, 280, 530, 30);
 		getContentPane().add(joinfindPanel);
 		joinfindPanel.setBackground(Color.WHITE);
-		getContentPane().add(joinfindPanel);
 		
-		idfindBtn.setBounds(EXIT_ON_CLOSE, ABORT, WIDTH, HEIGHT);
+		idfindBtn.setBounds(10, 70, 100, 100);
 		joinfindPanel.add(idfindBtn);
 
-		pwfindBtn.setBounds(EXIT_ON_CLOSE, ABORT, WIDTH, HEIGHT);
+		pwfindBtn.setBounds(10, 70, 50, 50);
 		joinfindPanel.add(pwfindBtn);
 		
-		joinBtn.setBounds(EXIT_ON_CLOSE, ABORT, WIDTH, HEIGHT);
+		joinBtn.setBounds(10, 140, 50, 50);
 		joinfindPanel.add(joinBtn);
 		
 		loginBtn.addActionListener(new ActionListener() {
@@ -95,20 +97,25 @@ public class Login extends JFrame {
 				String login = "";
 				
 				if(id.length()==0 || pw.length()==0) {
-					JOptionPane.showMessageDialog(null, "Message", "Enter your ID or password!", JOptionPane.DEFAULT_OPTION);
+					JOptionPane.showMessageDialog(null, "Enter your ID or password!", "Message", JOptionPane.DEFAULT_OPTION);
 					return;
 				}
 				
 				try{
-					BufferedReader reader = new BufferedReader(new FileReader(/* idpw.txt 경로 */));
+					BufferedReader reader = new BufferedReader(new FileReader("resources/idpw.txt"));
 					
 				        String str;
 				        ArrayList<String> txtmember = new ArrayList<>();
-				        while ((str = reader.readLine()) != null) {
-				        	txtmember.add(str);
-				        }   
-				       
-				        reader.close();
+				        try {
+							while ((str = reader.readLine()) != null) {
+								txtmember.add(str);
+							}
+						} catch (Exception e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}   
+				        
+				        //reader.close();
 				        
 				        
 				        HashMap<String,String> memberlist = new HashMap<>();
@@ -123,10 +130,13 @@ public class Login extends JFrame {
 				            	login = "Succeed";
 				            }
 				        }				        
-					
-				}catch(Exception errmsg){
+				}catch(FileNotFoundException errmsg){
 					errmsg.printStackTrace();
 				}
+				
+//				catch(FileNotFoundException ) {
+//					e.getStackTrace();
+//				}
 				
 				if(login.equals("Succeed")) {
 					JOptionPane.showMessageDialog(null, "Succeed", "Login Succeed", JOptionPane.DEFAULT_OPTION);
@@ -166,5 +176,9 @@ public class Login extends JFrame {
 		
 	}
 
+	
+	public static void main(String[] args) {
+		new Login();
+	};
 
 }

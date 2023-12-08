@@ -5,7 +5,7 @@ import java.awt.*;
 
 class LogoPanel extends JPanel {
 	
-	private ImageIcon icon = new ImageIcon("그림 경로");
+	private ImageIcon icon = new ImageIcon("/resources/logo.png");
 	private Image img = icon.getImage();
 
 	public void paintComponent(Graphics g) {

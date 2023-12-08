@@ -4,7 +4,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class PanelClass extends JFrame {
+public class ClassColor extends JFrame {
     private MyPanel panel = new MyPanel();
     private JLabel selectionLabel = new JLabel("Selected Grade: None, Panel Number: None");
     private int panelsToSelect = 0;
@@ -14,7 +14,7 @@ public class PanelClass extends JFrame {
     private int selectedPanelsCount = 0; // Counter for the selected panels
     private Color[][] originalColors;
 
-    public PanelClass() {
+    public ClassColor() {
         setTitle("JPanel ex");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -57,7 +57,7 @@ public class PanelClass extends JFrame {
         private void initializePanelColors() {
             for (int i = 0; i < 9; i++) {
                 for (int j = 0; j < 10; j++) {
-                    panelColors[i][j] = new Color(255, 0, 0); // Initialize all panels to red
+                    panelColors[i][j] = assignGradeColor(i, j);
                 }
             }
             // Save the original colors
@@ -79,6 +79,18 @@ public class PanelClass extends JFrame {
                 }
             }
         }
+        
+        private Color assignGradeColor(int row, int column) {
+            // Assign colors based on the panel's position
+            int panelNumber = row * 10 + column + 1;
+            if (panelNumber <= 30) {
+                return panelColors[row][column] = new Color(255, 127, 50); // Set color for grade A
+            } else if (panelNumber <= 60) {
+                return panelColors[row][column] = new Color(0, 181, 226); // Set color for grade B
+            } else {
+                return panelColors[row][column] = new Color(255, 205, 0); // Set color for grade C
+            }
+        }
 
         private class MyMouseAdapter extends MouseAdapter {
             @Override
@@ -89,10 +101,10 @@ public class PanelClass extends JFrame {
 
                     if (row >= 0 && row < 9 && column >= 0 && column < 10) {
                         // Toggle the color of the clicked panel
-                        if (panelColors[row][column].equals(new Color(255, 0, 0))) {
-                            panelColors[row][column] = new Color(0, 255, 0); // Change to green when clicked
+                        if (panelColors[row][column].equals(assignGradeColor(row, column))) {
+                            panelColors[row][column] = Color.red; // Change to white when clicked
                         } else {
-                            panelColors[row][column] = new Color(255, 0, 0); // Change back to red when clicked again
+                            panelColors[row][column] = assignGradeColor(row, column); // Change back to original color when clicked again
                         }
 
                         // Check if the grade is selected or select the grade
@@ -105,7 +117,7 @@ public class PanelClass extends JFrame {
                             if (!selectedGrade.equals(grade)) {
                                 JOptionPane.showMessageDialog(null, "Please select panels with the same grade.");
                                 // Revert the color change for the mistakenly selected panel
-                                panelColors[row][column] = toggleColor(panelColors[row][column]);
+                                panelColors[row][column] = assignGradeColor(row, column);
                                 return; // Do not decrease remainingPanels or continue if grades are different
                             }
                             selectedPanelNumbers[selectedPanelsCount] = row * 10 + column + 1;
@@ -113,7 +125,7 @@ public class PanelClass extends JFrame {
                         }
 
                         updateSelectionLabel();
-                        repaint(); // Trigger repaint to reflect the color change
+                        repaint(); // Trigger repaint to immediately update the GUI
                         remainingPanels--;
 
                         
@@ -129,18 +141,15 @@ public class PanelClass extends JFrame {
                     selectionLabel.setText("Selected Grade: " + selectedGrade +
                             ", Panel Number: " + selectedPanelNumbers[0]);
                 }
-
                 // Schedule the message dialog to ensure it appears after the label is updated
                 SwingUtilities.invokeLater(() -> {
                     if (remainingPanels == 0) {
                         JOptionPane.showMessageDialog(null, selectionLabel);
                     }
                 });
-
-                repaint(); // Trigger repaint to immediately update the GUI
+                
+                repaint();
             }
-
-
 
             private String assignGrade(int row, int column) {
                 // Assign grades based on the panel's position
@@ -154,17 +163,12 @@ public class PanelClass extends JFrame {
                 }
             }
 
-            private Color toggleColor(Color color) {
-                // Toggle the color
-                return color.equals(new Color(255, 0, 0)) ? new Color(0, 255, 0) : new Color(255, 0, 0);
-            }
+            
         }
     }
 
     public static void main(String[] args) {
-        new PanelClass();
+        new ClassColor();
     }
 }
-
-
 

@@ -11,98 +11,174 @@ import java.awt.event.MouseListener;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
+import java.io.*;
+
+import java.util.*;
+
 public class Login extends JFrame {
 	
-	private JFrame frame = new JFrame();
-	private JPanel contentPane;
-	private JTextField idTextField;
-	private JPasswordField passwordTextField;
-	private JTextField nametextField;
-	private JTextField phonetextField;
-	private JTextField birthtextField;
-	private JTextField emailtextField;
+	private static final long serialVersionUID = 1L;
 	
-	public static String id = "";
-	public static String password = "";
+	private LogoPanel logoPanel = new LogoPanel();
+	private JPanel idpwPanel = new JPanel();
+	private JPanel joinfindPanel = new JPanel();
 	
-	public static String name = "";
-	public static String phone_num = "";
-	public static String birth_date = "";
-	public static String email = "";
+	private JLabel idLabel = new JLabel("ID");
+	private JLabel pwLabel = new JLabel("PASSWORD ");
+	private JTextField idTextField = new JTextField();
+	private JPasswordField pwTextField = new JPasswordField();
+	private JButton loginBtn = new JButton("LOGIN");
+	private JButton idfindBtn = new JButton("ID FIND");
+	private JButton pwfindBtn = new JButton("PW FIND");
+	private JButton joinBtn = new JButton("JOIN");
+	
 
 	
 	
 	
-	public void Login() {
+	public Login() {
+		
+		super("LOGIN");
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1000, 700);
-		contentPane = new JPanel();
-		contentPane.setBackground(new Color(211, 211, 211));
-		contentPane.setBorder(new EmptyBorder(10, 10, 10, 10));
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
+		setSize(550, 350); // 사이즈
+		setTitle("예매 프로그램");
+		setLocationRelativeTo(null);
+		getContentPane().setLayout(null);
 		
-		JLayeredPane layeredPane = new JLayeredPane();
-		layeredPane.setBounds(10, 10, 1000, 700);
-		contentPane.add(layeredPane);
-		layeredPane.setLayout(new CardLayout(0, 0));
+		logoPanel.setBounds(10, 10, 550, 140);
+		getContentPane().add(logoPanel);
+		logoPanel.setBackground(Color.WHITE);
 		
-		JPanel login = new JPanel();
-		login.setBackground(new Color(255, 255, 255));
-		layeredPane.add(login, "");
-		login.setLayout(null);
+		idpwPanel.setBounds(10, 160, 550, 120);
+		getContentPane().add(idpwPanel);
+		idpwPanel.setBackground(Color.WHITE);
+		
+		idLabel.setFont(new Font(null, 20, 20));
+		idLabel.setBounds(20, 170, 20, 20);
+		idpwPanel.add(idLabel);
+		
+		idTextField.setColumns(20);
+		idTextField.setBounds(50, 170, 20, 20);
+		idpwPanel.add(idTextField);
+		
+		
+		loginBtn.setBounds(400, 200, 200, 200);
+		idpwPanel.add(loginBtn);
+		
+		pwLabel.setFont(new Font(null, 20, 20));
+		pwLabel.setBounds(20, 220, 20, 20);
+		idpwPanel.add(pwLabel);
+		
+		pwTextField.setColumns(20);
+		pwTextField.setBounds(50, 220, 20, 20);
+		idpwPanel.add(pwTextField);
+		
+		
+		
+		joinfindPanel.setBounds(10, 280, 530, 30);
+		getContentPane().add(joinfindPanel);
+		joinfindPanel.setBackground(Color.WHITE);
+		
+		idfindBtn.setBounds(10, 70, 100, 100);
+		joinfindPanel.add(idfindBtn);
 
-		JLabel id_label = new JLabel("아이디");
-		id.setFont(new Font("폰트 이름", Font.BOLD, 30));
-		id.setBounds(EXIT_ON_CLOSE, ABORT, WIDTH, HEIGHT);
-		login.add(id);
+		pwfindBtn.setBounds(10, 70, 50, 50);
+		joinfindPanel.add(pwfindBtn);
 		
-		JLabel password_label = new JLabel("비밀번호");
-		id.setFont(new Font("폰트 이름", Font.BOLD, 30));
-		id.setBounds(EXIT_ON_CLOSE, ABORT, WIDTH, HEIGHT);
-		login.add(password);
+		joinBtn.setBounds(10, 140, 50, 50);
+		joinfindPanel.add(joinBtn);
 		
-		idTextField = new JTextField();
-		idTextField.setFont(new Font("폰트 이름", Font.BOLD, 30));
-		idTextField.setBounds(EXIT_ON_CLOSE, ABORT, WIDTH, HEIGHT);
-		login.add(idTextField);
-		
-		passwordTextField = new JPasswordField();
-		passwordTextField.setFont(new Font("폰트 이름", Font.BOLD, 30));
-		passwordTextField.setBounds(EXIT_ON_CLOSE, ABORT, WIDTH, HEIGHT);
-		login.add(passwordTextField);
-		
-		JButton loginbtn = new JButton("로그인");
-		loginbtn.setBackground(new Color(211, 211, 211));
-		loginbtn.setForeground(Color.WHITE);
-		loginbtn.addActionListener(new ActionListener() {
-			
-			@Override
+		loginBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				id = idTextField.getText();
-				password = passwordTextField.getText();
 				
-				// 로그인 데이터베이스
+				String id = idTextField.getText().trim();
+				String pw = pwTextField.getText().trim();
+				String login = "";
 				
-				System.out.println("로그인 성공 or 실패" ); // + 로그인 정보 데이터베이스 결과
+				if(id.length()==0 || pw.length()==0) {
+					JOptionPane.showMessageDialog(null, "Enter your ID or password!", "Message", JOptionPane.DEFAULT_OPTION);
+					return;
+				}
+				
+				try{
+					BufferedReader reader = new BufferedReader(new FileReader("resources/idpw.txt"));
+					
+				        String str;
+				        ArrayList<String> txtmember = new ArrayList<>();
+				        try {
+							while ((str = reader.readLine()) != null) {
+								txtmember.add(str);
+							}
+						} catch (Exception e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}   
+				        
+				        //reader.close();
+				        
+				        
+				        HashMap<String,String> memberlist = new HashMap<>();
+				        
+				        for(int i=0; i<txtmember.size(); i++) {
+				        	String[] tempresult = txtmember.get(i).toString().split("\\/");
+				        	memberlist.put(tempresult[0],tempresult[1]);
+				        }
+				        		        
+				        for ( String key : memberlist.keySet() ) {
+				            if(id.equals(key.trim()) && pw.equals(memberlist.get(key))) {
+				            	login = "Succeed";
+				            }
+				        }				        
+				}catch(FileNotFoundException errmsg){
+					errmsg.printStackTrace();
+				}
+				
+//				catch(FileNotFoundException ) {
+//					e.getStackTrace();
+//				}
+				
+				if(login.equals("Succeed")) {
+					JOptionPane.showMessageDialog(null, "Succeed", "Login Succeed", JOptionPane.DEFAULT_OPTION);
+					return;
+				}else {
+					JOptionPane.showMessageDialog(null, "Failed", "Login Failed", JOptionPane.DEFAULT_OPTION);	
+				}
+				
+			}
+		});
+		
+		idfindBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 				
 			}
 		});
 		
 		
-		try {
+		joinBtn.addActionListener(new ActionListener() {
 			
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Join join = new Join();
+	
+				
+				
+			}
+		});
+		
+		setResizable(false);
+		setVisible(true);
+		
+		
+
 		
 		
 		
 	}
 
+	
 	public static void main(String[] args) {
 		new Login();
-
-	}
+	};
 
 }

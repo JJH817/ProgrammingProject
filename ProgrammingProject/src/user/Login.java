@@ -1,5 +1,7 @@
 package user;
 
+import concertReservationSystem.*;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,14 +25,14 @@ public class Login extends JFrame {
 	private JPanel idpwPanel = new JPanel();
 	private JPanel joinfindPanel = new JPanel();
 	
-	private JLabel idLabel = new JLabel("ID");
-	private JLabel pwLabel = new JLabel("PASSWORD ");
+	private JLabel idLabel = new JLabel("아이디");
+	private JLabel pwLabel = new JLabel("비밀번호");
 	private JTextField idTextField = new JTextField();
 	private JPasswordField pwTextField = new JPasswordField();
-	private JButton loginBtn = new JButton("LOGIN");
-	private JButton idfindBtn = new JButton("ID FIND");
-	private JButton pwfindBtn = new JButton("PW FIND");
-	private JButton joinBtn = new JButton("JOIN");
+	private JButton loginBtn = new JButton("로그인");
+	private JButton idfindBtn = new JButton("아이디 찾기");
+	private JButton pwfindBtn = new JButton("비밀번호 찾기");
+	private JButton joinBtn = new JButton("회원가입");
 	
 
 	
@@ -46,47 +48,51 @@ public class Login extends JFrame {
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(null);
 		
-		logoPanel.setBounds(10, 10, 550, 140);
+		logoPanel.setBounds(10, 10, 530, 140);
 		getContentPane().add(logoPanel);
 		logoPanel.setBackground(Color.WHITE);
 		
-		idpwPanel.setBounds(10, 160, 550, 120);
-		getContentPane().add(idpwPanel);
+		idpwPanel.setBounds(10, 160, 530, 120);
+		idpwPanel.setLayout(null);
 		idpwPanel.setBackground(Color.WHITE);
+		getContentPane().add(idpwPanel);
 		
-		idLabel.setFont(new Font(null, 20, 20));
-		idLabel.setBounds(20, 170, 20, 20);
+		idLabel.setFont(new Font(null, Font.PLAIN, 15));
+		idLabel.setBounds(20, 30, 60, 20);
 		idpwPanel.add(idLabel);
 		
 		idTextField.setColumns(20);
-		idTextField.setBounds(50, 170, 20, 20);
+		idTextField.setBounds(80, 30, 280, 20);
 		idpwPanel.add(idTextField);
 		
 		
-		loginBtn.setBounds(400, 200, 200, 200);
+		loginBtn.setBounds(385, 25, 120, 70);
+		loginBtn.setFont(new Font(null, Font.PLAIN, 20));
 		idpwPanel.add(loginBtn);
 		
-		pwLabel.setFont(new Font(null, 20, 20));
-		pwLabel.setBounds(20, 220, 20, 20);
+		pwLabel.setFont(new Font(null, Font.PLAIN, 15));
+		pwLabel.setBounds(20, 70, 60, 20);
 		idpwPanel.add(pwLabel);
 		
 		pwTextField.setColumns(20);
-		pwTextField.setBounds(50, 220, 20, 20);
+		pwTextField.setBounds(80, 70, 280, 20);
 		idpwPanel.add(pwTextField);
 		
 		
 		
 		joinfindPanel.setBounds(10, 280, 530, 30);
-		getContentPane().add(joinfindPanel);
+		joinfindPanel.setLayout(null);
 		joinfindPanel.setBackground(Color.WHITE);
+		getContentPane().add(joinfindPanel);
 		
-		idfindBtn.setBounds(10, 70, 100, 100);
+		
+		idfindBtn.setBounds(10, 1, 100, 20);
 		joinfindPanel.add(idfindBtn);
 
-		pwfindBtn.setBounds(10, 70, 50, 50);
+		pwfindBtn.setBounds(210, 1, 100, 20);
 		joinfindPanel.add(pwfindBtn);
 		
-		joinBtn.setBounds(10, 140, 50, 50);
+		joinBtn.setBounds(420, 1, 100, 20);
 		joinfindPanel.add(joinBtn);
 		
 		loginBtn.addActionListener(new ActionListener() {
@@ -97,12 +103,12 @@ public class Login extends JFrame {
 				String login = "";
 				
 				if(id.length()==0 || pw.length()==0) {
-					JOptionPane.showMessageDialog(null, "Enter your ID or password!", "Message", JOptionPane.DEFAULT_OPTION);
+					JOptionPane.showMessageDialog(null, "아이디와 비밀번호를 입력하세요", "Message", JOptionPane.DEFAULT_OPTION);
 					return;
 				}
 				
 				try{
-					BufferedReader reader = new BufferedReader(new FileReader("resources/idpw.txt"));
+					BufferedReader reader = new BufferedReader(new FileReader("/Users/boou/git/ProgrammingProject/ProgrammingProject/src/resources/idpw.txt"));
 					
 				        String str;
 				        ArrayList<String> txtmember = new ArrayList<>();
@@ -139,10 +145,11 @@ public class Login extends JFrame {
 //				}
 				
 				if(login.equals("Succeed")) {
-					JOptionPane.showMessageDialog(null, "Succeed", "Login Succeed", JOptionPane.DEFAULT_OPTION);
+					JOptionPane.showMessageDialog(null, "로그인 성공", "Message", JOptionPane.DEFAULT_OPTION);
+					new ChooseDayAndTime();
 					return;
 				}else {
-					JOptionPane.showMessageDialog(null, "Failed", "Login Failed", JOptionPane.DEFAULT_OPTION);	
+					JOptionPane.showMessageDialog(null, "아이디 또는 비밀번호가 일치하지 않습니다", "Message", JOptionPane.DEFAULT_OPTION);	
 				}
 				
 			}

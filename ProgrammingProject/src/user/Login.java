@@ -23,8 +23,6 @@ public class Login extends JFrame {
 	private JPanel idpwPanel = new JPanel();
 	private JPanel joinfindPanel = new JPanel();
 	
-	
-	private JPanel Panel = new JPanel();
 	private JLabel idLabel = new JLabel("ID");
 	private JLabel pwLabel = new JLabel("PASSWORD ");
 	private JTextField idTextField = new JTextField();
@@ -62,38 +60,45 @@ public class Login extends JFrame {
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(null);
 		
-		logoPanel.setBounds(/*가로위치, 세로위치, 가로길이, 세로길이 */);
+		logoPanel.setBounds(EXIT_ON_CLOSE, ABORT, WIDTH, HEIGHT);
 		getContentPane().add(logoPanel);
 		logoPanel.setBackground(Color.WHITE);
 		
-		idpwPanel.setBounds(/*가로위치, 세로위치, 가로길이, 세로길이 */);
+		idpwPanel.setBounds(EXIT_ON_CLOSE, ABORT, WIDTH, HEIGHT);
 		getContentPane().add(idpwPanel);
 		idpwPanel.setBackground(Color.WHITE);
-		getContentPane().add(idpwPanel);
+		
+		idLabel.setFont(new Font(null, ALLBITS, ABORT));
+		idLabel.setBounds(EXIT_ON_CLOSE, ABORT, WIDTH, HEIGHT);
+		idpwPanel.add(idLabel);
 		
 		idTextField.setColumns(10);
-		idTextField.setBounds(/*가로위치, 세로위치, 가로길이, 세로길이 */);
+		idTextField.setBounds(EXIT_ON_CLOSE, ABORT, WIDTH, HEIGHT);
 		idpwPanel.add(idTextField);
 		
-		loginBtn.setBounds(/*가로위치, 세로위치, 가로길이, 세로길이 */);
+		loginBtn.setBounds(EXIT_ON_CLOSE, ABORT, WIDTH, HEIGHT);
 		idpwPanel.add(loginBtn);
 		
 		pwTextField.setColumns(10);
-		pwTextField.setBounds(/*가로위치, 세로위치, 가로길이, 세로길이 */);
+		pwTextField.setBounds(EXIT_ON_CLOSE, ABORT, WIDTH, HEIGHT);
 		idpwPanel.add(pwTextField);
 		
-		joinfindPanel.setBounds(/*가로위치, 세로위치, 가로길이, 세로길이 */);
+		pwLabel.setFont(new Font(null, ALLBITS, ABORT));
+		pwLabel.setBounds(EXIT_ON_CLOSE, ABORT, WIDTH, HEIGHT);
+		idpwPanel.add(pwLabel);
+		
+		joinfindPanel.setBounds(EXIT_ON_CLOSE, ABORT, WIDTH, HEIGHT);
 		getContentPane().add(joinfindPanel);
 		joinfindPanel.setBackground(Color.WHITE);
 		getContentPane().add(joinfindPanel);
 		
-		idfindBtn.setBounds(/*가로위치, 세로위치, 가로길이, 세로길이 */);
+		idfindBtn.setBounds(EXIT_ON_CLOSE, ABORT, WIDTH, HEIGHT);
 		joinfindPanel.add(idfindBtn);
 
-		pwfindBtn.setBounds(/*가로위치, 세로위치, 가로길이, 세로길이 */);
+		pwfindBtn.setBounds(EXIT_ON_CLOSE, ABORT, WIDTH, HEIGHT);
 		joinfindPanel.add(pwfindBtn);
 		
-		joinBtn.setBounds(/*가로위치, 세로위치, 가로길이, 세로길이 */);
+		joinBtn.setBounds(EXIT_ON_CLOSE, ABORT, WIDTH, HEIGHT);
 		joinfindPanel.add(joinBtn);
 		
 		loginBtn.addActionListener(new ActionListener() {
@@ -104,7 +109,7 @@ public class Login extends JFrame {
 				String login = "";
 				
 				if(id.length()==0 || pw.length()==0) {
-					JOptionPane.showMessageDialog(null, "Enter your ID or password!", JOptionPane.DEFAULT_OPTION);
+					JOptionPane.showMessageDialog(null, "Message", "Enter your ID or password!", JOptionPane.DEFAULT_OPTION);
 					return;
 				}
 				

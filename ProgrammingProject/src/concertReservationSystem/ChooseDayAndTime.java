@@ -2,11 +2,7 @@ package concertReservationSystem;
 
 import java.util.*;
 import java.util.List;
-
 import javax.swing.*;
-
-import user.Login;
-
 import java.awt.*;
 import java.awt.event.*;
 import java.util.regex.*;
@@ -82,16 +78,18 @@ public class ChooseDayAndTime extends JFrame {
 				
 				
 				
+				//좌석선택 프레임 오픈
+				//new Seat(id, itemListener.getSelectedDate(), itemListener.getSelectedTime(),
+				//		itemListener.getNOPtoInt(), ticketNo);
 				
 				
-				//new SeatUI(SeatUI).Frame[i].setVisible(true);			//->여기에서 좌석프레임 오픈
+				
+				
+				
+
 				
 				 // Access the selected values through the MyItemListener instance
 				 // 이후 주석처리해도 상관없는 출력파트(확인용)
-				
-				new Seat(id, itemListener.getSelectedDate(), itemListener.getSelectedTime(),
-						itemListener.getNOPtoInt(), ticketNo);
-				
                 System.out.println(itemListener.getSelectedDate()
                        + " " + itemListener.getSelectedTime()
                        + " " + itemListener.getSelectedNumberOfPeople());
@@ -103,8 +101,10 @@ public class ChooseDayAndTime extends JFrame {
                 
                 System.out.println(ticketNo);
                 
-
                 
+                
+                setVisible(false);
+
 			}
         });
 		

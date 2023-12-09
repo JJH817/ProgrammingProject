@@ -31,8 +31,8 @@ public class Seat extends JFrame{
     	setTitle("좌석선택");
     	unReserved = people;
     	panel = new JPanel(null);
-    	date = getSelectedDate();
-    	time = getSelectedTime();
+    	date = getSelectedDate();					//date, time은 그냥 그대로 갖다 써도 될거같음
+    	time = getSelectedTime();					//Seat에 인자로 받았기 때문에 getter 메서드 사용 안해도 상관없을듯
     	
     	stage = new JLabel("STAGE");
     	stage.setBackground(Color.white);
@@ -97,7 +97,7 @@ public class Seat extends JFrame{
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				ChooseDayAndTime(id).setVisible(true); //날짜선택창을 띄워줌
+				new ChooseDayAndTime(id).setVisible(true); //날짜선택창을 띄워줌
 				Seat.this.dispose(); //좌석선택창을 처분
 			}        	
         });
@@ -408,7 +408,7 @@ public class Seat extends JFrame{
             for (ChooseDayAndTime reservation : seatGradeMap.values()) { //이름과 전화번호 모두 일치하는 경우에만 totalReservedSeats 값이 증가. 동명이인이 예매할 경우를 상정
                 if (reservation.getId().equals(id)&& ChooseDayAndTime.getSelectedTime().equals(time)&&ChooseDayAndTime.getSelectedDate().equals(date)) {
                     totalReservedSeats += ChooseDayAndTime.getNOPtoInt();
-                }
+                }	//seat 호출시 받은 해당 id의 예약좌석수가 people에 int로 저장되어있음
             }
         }
 

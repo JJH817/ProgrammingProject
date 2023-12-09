@@ -14,6 +14,13 @@ public class BasicMenu extends JFrame {
 	JButton checkbtn = new JButton(" 조회하기 ");
 	
 	
+	
+	
+    int reservthatTimeNum = 0;
+    
+    
+    
+	
 	public BasicMenu(String id) {
 		setTitle("콘서트 예약 메뉴");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -39,8 +46,8 @@ public class BasicMenu extends JFrame {
 		checkbtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				try (BufferedReader br = new BufferedReader(new FileReader("src/resources/ticketEx.txt"))) {
-		            String line;
+				try (BufferedReader br = new BufferedReader(new FileReader("src/resources/ticketEx.txt"))) {		//여기부터
+		            String line;																					//필요없는 부분 날리고 필요한 reservthatTimeNum값 ++ 연산으로 계산
 		            while ((line = br.readLine()) != null) {
 		                // "/"를 기준으로 문자열을 분리
 		                String[] parts = line.split("/");
@@ -52,6 +59,7 @@ public class BasicMenu extends JFrame {
 		                int seatNumber = Integer.parseInt(parts[3]);
 		                int reservationNumber = Integer.parseInt(parts[4]);
 
+		                
 		                // 사용자가 입력한 ID를 포함하는 경우에만 출력
 		                if (id.equals(reservationId)) {
 		                    // 출력 예시 (원하는 형태로 수정 가능)
@@ -61,9 +69,13 @@ public class BasicMenu extends JFrame {
 		                    System.out.println("Seat Number: " + seatNumber);
 		                    System.out.println("Reservation Number: " + reservationNumber);
 		                    System.out.println("------------");
+		                    
+		                    reservthatTimeNum++;
+		                    
+		                    
 		                }
-		            }
-		        } catch (IOException ex) {
+		            } System.out.println(reservthatTimeNum);
+		        } catch (IOException ex) {																			//여기까지
 		            ex.printStackTrace();
 		        }
 		    }

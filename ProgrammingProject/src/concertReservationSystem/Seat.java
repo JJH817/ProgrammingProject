@@ -1,10 +1,6 @@
 package concertReservationSystem;
 
 import concertReservationSystem.ChooseDayAndTime;
-import concertReserveation.ExceededMaxSeatsException;
-import concertReserveation.InvalidSeatException;
-import concertReserveation.Reservation;
-import concertReserveation.Seat;
 
 import java.awt.*;
 import javax.swing.*;
@@ -31,8 +27,6 @@ public class Seat extends JFrame{
     	setTitle("좌석선택");
     	unReserved = people;
     	panel = new JPanel(null);
-    	date = getSelectedDate();
-    	time = getSelectedTime();
     	
     	stage = new JLabel("STAGE");
     	stage.setBackground(Color.white);
@@ -62,7 +56,7 @@ public class Seat extends JFrame{
     	}
     	
     	try {
-    		FileReader fr = new FileReader("ticket.txt");
+    		FileReader fr = new FileReader("src/resources/ticket.txt");
     		BufferedReader br = new BufferedReader(fr);
     		String str;
     		while((str = br.readLine())!= null) {
@@ -97,7 +91,7 @@ public class Seat extends JFrame{
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				ChooseDayAndTime(id).setVisible(true); //날짜선택창을 띄워줌
+				new ChooseDayAndTime(id).setVisible(true); //날짜선택창을 띄워줌
 				Seat.this.dispose(); //좌석선택창을 처분
 			}        	
         });
@@ -132,7 +126,7 @@ public class Seat extends JFrame{
 					msg +=seatGrade+"\t"+seats+"\t"+etc;
 					ticket.add(msg);																// 리스트에 역시 추가함
 					try {
-						FileWriter fw = new FileWriter("ticket.txt"); 								// 이제 예매를 했으니 ticket.txt에 쓸것임
+						FileWriter fw = new FileWriter("src/resources/ticket.txt"); 								// 이제 예매를 했으니 ticket.txt에 쓸것임
 						BufferedWriter bw = new BufferedWriter(fw);									// 지금 예매한것만 추가하고싶으나 그럴수없으므로 ticket에 있는 모든 정보를 다시 출력해줌									
 						for(int i = 0 ; i<ticket.size();i++)										// 반복문을돌려서 모든 예매정보를 다시 출력해줌 									
 							bw.write(ticket.get(i)+"\n");
@@ -152,6 +146,7 @@ public class Seat extends JFrame{
     	panel.add(seat);
     	panel.add(cancel);
     	panel.add(admit);
+    	add(panel);
     }
     public Seat(String seatGrade, int seatNumber) {
 		this.seatGrade = seatGrade;
@@ -408,7 +403,7 @@ public class Seat extends JFrame{
             for (ChooseDayAndTime reservation : seatGradeMap.values()) { //이름과 전화번호 모두 일치하는 경우에만 totalReservedSeats 값이 증가. 동명이인이 예매할 경우를 상정
                 if (reservation.getId().equals(id)&& ChooseDayAndTime.getSelectedTime().equals(time)&&ChooseDayAndTime.getSelectedDate().equals(date)) {
                     totalReservedSeats += ChooseDayAndTime.getNOPtoInt();
-                }
+                }	//seat 호출시 받은 해당 id의 예약좌석수가 people에 int로 저장되어있음
             }
         }
 

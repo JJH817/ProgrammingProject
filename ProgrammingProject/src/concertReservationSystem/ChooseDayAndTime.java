@@ -18,8 +18,8 @@ public class ChooseDayAndTime extends JFrame {
 			"2023년 12월 17일","2023년 12월 18일","2023년 12월 19일","2023년 12월 20일","2023년 12월 21일","2023년 12월 22일","2023년 12월 23일","2023년 12월 24일",
 			"2023년 12월 25일","2023년 12월 25일","2023년 12월 26일","2023년 12월 27일","2023년 12월 28일","2023년 12월 29일","2023년 12월 30일","2023년 12월 31일"
 	};
-	private String[] time1 = {"시간 선택", "13:00 ~ 15:00", "19:00 ~ 21:00"};
-	private String[] time2 = {"시간 선택", "19:00 ~ 21:00"};
+	private String[] time1 = {"시간 선택", "1", "2"};		//13~15, 19~21
+	private String[] time2 = {"시간 선택", "2"};						//19~21
 	private String[] PeopleCount = {"관람 인원", "1명", "2명"};
 	private JComboBox<String> scheduleDay = new JComboBox<String>(day);
 	private JComboBox<String> scheduleTime1 = new JComboBox<String>(time1);
@@ -79,6 +79,9 @@ public class ChooseDayAndTime extends JFrame {
                 System.out.println(itemListener.getSelectedDate()
                        + " " + itemListener.getSelectedTime()
                        + " " + itemListener.getSelectedNumberOfPeople());
+                
+                System.out.println(itemListener.getNOPtoInt());			//인원 수를 String이 아닌 int형으로 받음
+                
 			}
         });
 		
@@ -90,7 +93,8 @@ public class ChooseDayAndTime extends JFrame {
 		setSize(550, 80);
 		setVisible(true);
 		setLocation(578, 688);
-				
+		
+		
 	}
 		
 		public boolean isWeekend(String a) {
@@ -98,6 +102,8 @@ public class ChooseDayAndTime extends JFrame {
 	        return weekendDates.contains(a);	//주말인 경우 true
 	        									//평일인 경우 false
 	    }
+		
+		
 		private static String extractNumericDay(String selectedDay) {	//"12월 **일" 에서 **만 추출 
 			Pattern pattern = Pattern.compile("\\d+일");
 			Matcher matcher = pattern.matcher(selectedDay);
@@ -107,14 +113,24 @@ public class ChooseDayAndTime extends JFrame {
 				return "";
 		}
 		
+		private static String extractNumericNOP(String selectedNumberOfPeople) {	//"12월 **일" 에서 **만 추출 
+			Pattern pattern = Pattern.compile("\\d+명");
+			Matcher matcher = pattern.matcher(selectedNumberOfPeople);
+			if(matcher.find())
+				return matcher.group(0).replaceAll("[^0-9]","");
+			else 
+				return "";
+		}
+		
+		
+		
 		class MyItemListener implements ItemListener {
-			private String selectedDate;			//selected된 각 값이 저장되는 변수
+			private String selectedDate;			//selected된 각 값이 저장되는 변수		//JComboBox에서 select 될때마다 각 변수에 알아서 저장
 			private String selectedTime;
 			private String selectedNumberOfPeople;
 			public void itemStateChanged(ItemEvent e) {
 				if (e.getStateChange() == ItemEvent.SELECTED) {
 					JComboBox<String> source = (JComboBox<String>)e.getSource();
-					
 					if (source == scheduleDay) {
 						selectedDate = (String)source.getSelectedItem();
 					} else if (source == scheduleTime1 || source == scheduleTime2) {
@@ -133,13 +149,21 @@ public class ChooseDayAndTime extends JFrame {
 			public String getSelectedNumberOfPeople() {
 				return selectedNumberOfPeople;
 			}
-		}
+			public int getNOPtoInt() {
+				return Integer.parseInt(extractNumericNOP(selectedNumberOfPeople));
+			}
+		 }
 		
-		public void actionPerformed(ActionEvent e) { 
-			int performDate = scheduleDay.getSelectedIndex(); 
-			int performTime1 = scheduleTime1.getSelectedIndex(); 
-			int performTime2 = scheduleTime2.getSelectedIndex(); 
-			int ticket = NumberOfPeople.getSelectedIndex();
+
+		
+		
+		
+		
+/*		public void actionPerformed(ActionEvent e) { 
+			int performDate = scheduleDay.getSelectedIndex();			//a[i] => i일
+			int performTime1 = scheduleTime1.getSelectedIndex();		
+			int performTime2 = scheduleTime2.getSelectedIndex(); 	
+			int ticket = NumberOfPeople.getSelectedIndex();				//d[i] = i명
 			int nop=0;
 			Object time = "";
 			Object date = "";
@@ -162,13 +186,15 @@ public class ChooseDayAndTime extends JFrame {
 			}
 		}
 		 
+*/		
+		
 		
 		
 
-		/*public static void main(String[] args) {
+		public static void main(String[] args) {
 			// TODO Auto-generated method stub
 			new ChooseDayAndTime();
-		}*/
+		}
 	
 
 }

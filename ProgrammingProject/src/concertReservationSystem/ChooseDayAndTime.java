@@ -135,10 +135,40 @@ public class ChooseDayAndTime extends JFrame {
 			}
 		}
 		
-		public static void main(String[] args) {
+		public void actionPerformed(ActionEvent e) { 
+			int performDate = scheduleDay.getSelectedIndex(); 
+			int performTime1 = scheduleTime1.getSelectedIndex(); 
+			int performTime2 = scheduleTime2.getSelectedIndex(); 
+			int ticket = NumberOfPeople.getSelectedIndex();
+			int nop=0;
+			Object time = "";
+			Object date = "";
+		  
+			if(ticket==0 || performTime1==0 || performTime2==0 || performDate==0){ 
+			  new Message(new JFrame(""), null,null,"선택하지않은 항목이 있습니다",null,false,null); 
+			}else {
+			  if(ticket!=0&&(performTime1!=0&&performDate!=0)) {
+				  nop+=ticket;
+				  time = scheduleTime1.getSelectedItem();
+				  date = scheduleDay.getSelectedItem();
+			  }else if(ticket!=0&&(performTime2!=0&&performDate!=0)) {
+				  nop+=ticket;
+				  time = scheduleTime2.getSelectedItem();
+				  date = scheduleDay.getSelectedIndex();
+			  }
+			  ChooseDayAndTime.this.setVisible(false);
+			  Seat seat = new Seat(id, date, time, nop, ChooseDayAndTime.this);
+			  seat.setVisible(true);
+			}
+		}
+		 
+		
+		
+
+		/*public static void main(String[] args) {
 			// TODO Auto-generated method stub
 			new ChooseDayAndTime();
-		}
+		}*/
 	
 
 }

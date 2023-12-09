@@ -2,39 +2,36 @@ package concertReservationSystem;
 
 import java.awt.*;
 import javax.swing.*;
-
-import project6.MainFrame;
-
 import java.awt.event.*;
 
 public class Message extends Dialog implements ActionListener{
 	boolean id = false;				//id값을 거짓으로 설정
-	Button ok,can;					//버튼
+	Button ok,cancel;					//버튼
 	JFrame parent;
-	Message(JFrame frame, String movieName,String ticketNum,String msg,String seats, boolean okcan,JFrame parent)
+	Message(JFrame frame, String id,String ticketNum,String msg,String seats, boolean okcancel,JFrame parent)
 	{
 		super(frame, "Message", true);		//Message의 프레임 설정
 		this.parent = parent;
 		
 		Container panel = frame.getContentPane();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-		if(movieName!=null) panel.add(new Label(movieName));
+		if(id!=null) panel.add(new Label(id));
 		if(ticketNum!=null) panel.add(new Label(ticketNum));
 		if(seats!=null) panel.add(new Label(seats));
 		panel.add(new Label(msg));
 		add(panel);
-		addOKCancelPanel(okcan);
+		addOKCancelPanel(okcancel);
 		createFrame();						//프레임 생성
 		pack();
 		setVisible(true);
 	}
 
-	void addOKCancelPanel( boolean okcan ) 
+	void addOKCancelPanel( boolean okcancel ) 
 	{
 		Panel p = new Panel();				//패널 생성
 		p.setLayout(new FlowLayout());
 		createOKButton( p );				//버튼 생성
-		if (okcan == true)
+		if (okcancel == true)
 			createCancelButton( p );
 		add("South",p);
 	}
@@ -47,8 +44,8 @@ public class Message extends Dialog implements ActionListener{
 
 	void createCancelButton(Panel p) 
 	{
-		p.add(can = new Button("Cancel"));
-		can.addActionListener(this);
+		p.add(cancel = new Button("Cancel"));
+		cancel.addActionListener(this);
 	}
 
 	void createFrame() 
@@ -66,7 +63,7 @@ public class Message extends Dialog implements ActionListener{
 			new ConcertReservationSystem();
 			setVisible(false);
 		}
-		else if(ae.getSource() == can) 
+		else if(ae.getSource() == cancel) 
 		{
 			setVisible(false);
 		}

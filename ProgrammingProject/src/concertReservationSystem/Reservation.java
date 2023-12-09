@@ -1,6 +1,11 @@
 package concertReservationSystem;
 
-public class Reservation {
+import java.awt.*;
+import javax.swing.*;
+import java.awt.event.*;
+import javax.swing.event.*;
+
+public class Reservation{
 	private static int reservationCounter = 1;
 
     private String name;
@@ -48,7 +53,7 @@ public class Reservation {
         return reservationNumber;
     }
     public int getNumberOfSeats() {
-        return numberOfSeats;
+        return numberOfSeats ;
     }
 
     public void updateNumberOfSeats(int additionalSeats) {

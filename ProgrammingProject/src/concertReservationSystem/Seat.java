@@ -1,5 +1,6 @@
 package concertReservationSystem;
 
+import concertReservationSystem.ChooseDayAndTime;
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
@@ -9,7 +10,10 @@ import java.util.*;
 import java.io.*;
 
 public class Seat extends JFrame{
+	ChooseDayAndTime sda = new ChooseDayAndTime();
 	private String seatGrade; //좌석등급
+	private static HashMap<String, Seat[]> seatMap = new HashMap<>();
+	private static HashMap<String, Map<Integer, ChooseDayAndTime>> reservationMap = new HashMap<>();
 	JPanel panel, seat;
     JLabel stage, seats[];
     JButton cancel, admit;
@@ -17,7 +21,7 @@ public class Seat extends JFrame{
     ArrayList<String> ticket;
     int unReserved; //예약되지않은 좌석수
     
-    public Seat(int people, final JFrame parent) {
+    public Seat(String id, String date, int time, int people, final JFrame parent) {
     	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     	setSize(1500,1200);
     	setTitle("좌석선택");
@@ -36,82 +40,8 @@ public class Seat extends JFrame{
     	seats = new JLabel[180];
     	seatSelect = new boolean[180];
     	seat.setOpaque(true);
-    	Font f = new Font("Arial", Font.PLAIN, 20);
-    	for(int i=0;i<3;i++) {
-    		for(int j=0;j<10;j++) {
-    			int k = i*10+j;
-    			seats[k].setBackground(new Color(255, 127, 50));
-    			seats[k].setFont(f);
-    			seats[k] = new JLabel("vip"+Integer.toString(k+1));
-				seats[k].setHorizontalAlignment(JLabel.CENTER);
-				seats[k].addMouseListener(new MouseAdapter() {
-					public void mouseClicked(MouseEvent arg0) {						
-						if(seats[k].getBackground()==Color.red) { 					// red는 지금 선택했던 좌석
-							seats[k].setBackground(new Color(255, 127, 50)); 						// 다시 선택하면 다시 원래색으로 배경을 바꿔줌
-							seatSelect[k] = false;											// 선택된 좌석을 false로 바꿔주고 unReserved를 하나증가시킴
-							unReserved++;
-						}
-						else if(unReserved>0 && seats[k].getBackground()!=Color.black){ 	// black은 이전에 다른사람이 예매한 좌석, unReserved가 아직 0이아니면
-							seats[k].setBackground(Color.red);						// 선택할 수 있으므로 red로 색깔을 바꿔주고 seatSelect를 true로해줌
-							seatSelect[k] = true;						
-							unReserved--;													// 한자리 선택했으므로 unReserved는 감소시킴
-						}
-						seats[k].setOpaque(true);
-					}
-				});
-				seat.add(seats[k]);
-    		}
-    	}
-    	for(int i=3;i<9;i++) {
-    		for(int j=0;j<10;j++) {
-    			int k = i*10+j;
-    			seats[k].setBackground(new Color(0, 181, 226));
-    			seats[k].setFont(f);
-    			seats[k] = new JLabel(Integer.toString(k+1)); 				// 라벨을 하나씩 좌석 번호로 초기화해줌
-				seats[k].setHorizontalAlignment(JLabel.CENTER);
-				seats[k].addMouseListener(new MouseAdapter() {
-					public void mouseClicked(MouseEvent arg0) {						
-						if(seats[k].getBackground()==Color.red) { 					// red는 지금 선택했던 좌석
-							seats[k].setBackground(new Color(0, 181, 226)); 						// 다시 선택하면 다시 원래색으로 배경을 바꿔줌
-							seatSelect[k] = false;											// 선택된 좌석을 false로 바꿔주고 unReserved를 하나증가시킴
-							unReserved++;
-						}
-						else if(unReserved>0 && seats[k].getBackground()!=Color.black){ 	// green는 이전에 다른사람이 예매한 좌석, unReserved가 아직 0이아니면
-							seats[k].setBackground(Color.red);						// 선택할 수 있으므로 red로 색깔을 바꿔주고 seatSelect를 true로해줌
-							seatSelect[k] = true;						
-							unReserved--;													// 한자리 선택했으므로 unReserved는 감소시킴
-						}
-						seats[k].setOpaque(true);
-					}
-				});
-				seat.add(seats[k]);
-    		}
-    	}
-    	for(int i=9;i<18;i++) {
-    		for(int j=0;j<10;j++) {
-    			int k = i*10+j;
-    			seats[k].setBackground(new Color(255, 205, 0));
-    			seats[k].setFont(f);
-    			seats[k] = new JLabel(Integer.toString(k+1)); 				// 라벨을 하나씩 좌석 번호로 초기화해줌
-				seats[k].setHorizontalAlignment(JLabel.CENTER);
-				seats[k].addMouseListener(new MouseAdapter() {
-					public void mouseClicked(MouseEvent arg0) {						
-						if(seats[k].getBackground()==Color.red) { 					// red는 지금 선택했던 좌석
-							seats[k].setBackground(new Color(255, 205, 0)); 						// 다시 선택하면 다시 원래색으로 배경을 바꿔줌
-							seatSelect[k] = false;											// 선택된 좌석을 false로 바꿔주고 unReserved를 하나증가시킴
-							unReserved++;
-						}
-						else if(unReserved>0 && seats[k].getBackground()!=Color.black){ 	// green는 이전에 다른사람이 예매한 좌석, unReserved가 아직 0이아니면
-							seats[k].setBackground(Color.red);						// 선택할 수 있으므로 red로 색깔을 바꿔주고 seatSelect를 true로해줌
-							seatSelect[k] = true;						
-							unReserved--;													// 한자리 선택했으므로 unReserved는 감소시킴
-						}
-						seats[k].setOpaque(true);
-					}
-				});
-				seat.add(seats[k]);
-    		}
-    	}
+    	hallSeats();
+    	
     	try {
     		FileReader fr = new FileReader("ticket.txt");
     		BufferedReader br = new BufferedReader(fr);
@@ -174,9 +104,113 @@ public class Seat extends JFrame{
     	cancel.setBounds(1300, 1030, 100, 50);
     	admit.setBounds(1300, 100, 100, 50);
     	seat.setBounds(200, 20, 1300, 20);
+    	
+    	panel.add(stage);
+    	panel.add(seat);
+    	panel.add(cancel);
+    	panel.add(admit);
     }
-    
-    
+    private void hallSeats() {
+    	seatMap.put("VIP", new Seat[30]);
+        seatMap.put("S", new Seat[60]);
+        seatMap.put("R", new Seat[90]);
+        Font f = new Font(null, Font.PLAIN, 20);
+        for(String seatGrade: seatMap.keySet()) {
+        	for(int i=0;i<3;i++) {
+        		for(int j=0;j<10;j++) {
+        			int k = i*10+j;
+        			seats[k].setBackground(new Color(255, 127, 50));
+        			seats[k].setFont(f);
+        			seats[k] = new JLabel("VIP"+Integer.toString(k+1));
+    				seats[k].setHorizontalAlignment(JLabel.CENTER);
+    				seats[k].addMouseListener(new MouseAdapter() {
+    					public void mouseClicked(MouseEvent arg0) {						
+    						if(seats[k].getBackground()==Color.red) { 					// red는 지금 선택했던 좌석
+    							seats[k].setBackground(new Color(255, 127, 50)); 						// 다시 선택하면 다시 원래색으로 배경을 바꿔줌
+    							seatSelect[k] = false;											// 선택된 좌석을 false로 바꿔주고 unReserved를 하나증가시킴
+    							unReserved++;
+    						}
+    						else if(unReserved>0 && seats[k].getBackground()!=Color.black){ 	// black은 이전에 다른사람이 예매한 좌석, unReserved가 아직 0이아니면
+    							seats[k].setBackground(Color.red);						// 선택할 수 있으므로 red로 색깔을 바꿔주고 seatSelect를 true로해줌
+    							seatSelect[k] = true;						
+    							unReserved--;													// 한자리 선택했으므로 unReserved는 감소시킴
+    						}
+    						seats[k].setOpaque(true);
+    					}
+    				});
+    				seat.add(seats[k]);
+    				System.arraycopy(seats, 0, seatMap.values(), 0, k);
+        		}
+        	}
+        	for(int i=3;i<9;i++) {
+        		for(int j=0;j<10;j++) {
+        			int k = i*10-30+j;
+        			seats[k].setBackground(new Color(0, 181, 226));
+        			seats[k].setFont(f);
+        			seats[k] = new JLabel("S"+Integer.toString(k+1)); 				// 라벨을 하나씩 좌석 번호로 초기화해줌
+    				seats[k].setHorizontalAlignment(JLabel.CENTER);
+    				seats[k].addMouseListener(new MouseAdapter() {
+    					public void mouseClicked(MouseEvent arg0) {						
+    						if(seats[k].getBackground()==Color.red) { 					// red는 지금 선택했던 좌석
+    							seats[k].setBackground(new Color(0, 181, 226)); 						// 다시 선택하면 다시 원래색으로 배경을 바꿔줌
+    							seatSelect[k] = false;											// 선택된 좌석을 false로 바꿔주고 unReserved를 하나증가시킴
+    							unReserved++;
+    						}
+    						else if(unReserved>0 && seats[k].getBackground()!=Color.black){ 	// green는 이전에 다른사람이 예매한 좌석, unReserved가 아직 0이아니면
+    							seats[k].setBackground(Color.red);						// 선택할 수 있으므로 red로 색깔을 바꿔주고 seatSelect를 true로해줌
+    							seatSelect[k] = true;						
+    							unReserved--;													// 한자리 선택했으므로 unReserved는 감소시킴
+    						}
+    						seats[k].setOpaque(true);
+    					}
+    				});
+    				seat.add(seats[k]);
+    				System.arraycopy(seats, 0, seatMap.values(), 0, k);
+        		}
+        	}
+        	for(int i=9;i<18;i++) {
+        		for(int j=0;j<10;j++) {
+        			int k = i*10-90+j;
+        			seats[k].setBackground(new Color(255, 205, 0));
+        			seats[k].setFont(f);
+        			seats[k] = new JLabel("R"+Integer.toString(k+1)); 				// 라벨을 하나씩 좌석 번호로 초기화해줌
+    				seats[k].setHorizontalAlignment(JLabel.CENTER);
+    				seats[k].addMouseListener(new MouseAdapter() {
+    					public void mouseClicked(MouseEvent arg0) {						
+    						if(seats[k].getBackground()==Color.red) { 					// red는 지금 선택했던 좌석
+    							seats[k].setBackground(new Color(255, 205, 0)); 						// 다시 선택하면 다시 원래색으로 배경을 바꿔줌
+    							seatSelect[k] = false;											// 선택된 좌석을 false로 바꿔주고 unReserved를 하나증가시킴
+    							unReserved++;
+    						}
+    						else if(unReserved>0 && seats[k].getBackground()!=Color.black){ 	// green는 이전에 다른사람이 예매한 좌석, unReserved가 아직 0이아니면
+    							seats[k].setBackground(Color.red);						// 선택할 수 있으므로 red로 색깔을 바꿔주고 seatSelect를 true로해줌
+    							seatSelect[k] = true;						
+    							unReserved--;													// 한자리 선택했으므로 unReserved는 감소시킴
+    						}
+    						seats[k].setOpaque(true);
+    					}
+    				});
+    				seat.add(seats[k]);
+    				System.arraycopy(seats, 0, seatMap.values(), 0, k);
+        		}
+        	}
+        }
+    }
+
+    private static int getTotalReservedSeats(String id, String date, String time) {
+		// 예매자가 예매한 총 좌석수를 보여주는 method
+        int totalReservedSeats = 0;
+
+        for (Map<Integer, ChooseDayAndTime> seatGradeMap : reservationMap.values()) {
+            for (ChooseDayAndTime reservation : seatGradeMap.values()) { //이름과 전화번호 모두 일치하는 경우에만 totalReservedSeats 값이 증가. 동명이인이 예매할 경우를 상정
+                if (reservation.getName().equals(name)&& ChooseDayAndTime.getSelectedTime().equals(time)&&ChooseDayAndTime.getSelectedDate().equals(date)) {
+                    totalReservedSeats += ChooseDayAndTime.getSelectedNumberOfPeople();
+                }
+            }
+        }
+
+        return totalReservedSeats;
+    }
 
 }
 

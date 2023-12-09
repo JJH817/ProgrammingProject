@@ -18,8 +18,7 @@ class ExceededMaxSeatsException extends Exception {
 public class ConcertReservationSystem {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+		
 	}
 
 }

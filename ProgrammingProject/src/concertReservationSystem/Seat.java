@@ -23,7 +23,7 @@ public class Seat extends JFrame{
     int unReserved; //예약되지않은 좌석수
     
     public Seat(String id, String date, String time, int people,int ticketNo) {
-    	ChooseDayAndTime.setVisible(true);
+    	ChooseDayAndTime(id).setVisible(false);
     	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     	setSize(1500,1200);
     	setTitle("좌석선택");
@@ -95,7 +95,7 @@ public class Seat extends JFrame{
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				ChooseDayAndTime.setVisible(true); //날짜선택창을 띄워줌
+				ChooseDayAndTime(id).setVisible(true); //날짜선택창을 띄워줌
 				Seat.this.dispose(); //좌석선택창을 처분
 			}        	
         });

@@ -108,8 +108,8 @@ public class Login extends JFrame {
 				}
 				
 				try{
-					BufferedReader reader = new BufferedReader(new FileReader("Users/boou/git/ProgrammingProject/ProgrammingProject/src/resources/idpw.txt"));
-					
+					BufferedReader reader = new BufferedReader(new FileReader("src\\resources\\idpw.txt"));
+						//Users/boou/git/ProgrammingProject/ProgrammingProject/src/resources/idpw.txt
 				        String str;
 				        ArrayList<String> txtmember = new ArrayList<>();
 				        try {

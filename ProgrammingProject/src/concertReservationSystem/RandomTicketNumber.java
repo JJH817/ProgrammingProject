@@ -29,10 +29,4 @@ public class RandomTicketNumber {
         return randomReservationNumber;
     }
 
-    public static void main(String[] args) {
-    	RandomTicketNumber reservationSystem = new RandomTicketNumber();
-        reservationSystem.createNewReservation();
-        System.out.println("Reservation Number: " + reservationSystem.getReservationNumber());
-    }
-
 }

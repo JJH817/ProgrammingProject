@@ -2,7 +2,7 @@ package concertReservationSystem;
 
 import java.util.*;
 import java.util.List;
-import java.util.Arrays;
+
 import javax.swing.*;
 
 import user.Login;
@@ -34,6 +34,8 @@ public class ChooseDayAndTime extends JFrame {
 	private Font comboBoxFont = new Font(null, Font.PLAIN, 14);
 	
 	private JButton btn = new JButton(" 좌석 선택하기 ");
+	
+	RandomTicketNumber randomticketnumber = new RandomTicketNumber();
 	
 	public ChooseDayAndTime(String id) {
 		setTitle("관람일자 선택");
@@ -74,13 +76,21 @@ public class ChooseDayAndTime extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
+				
+				randomticketnumber.createNewReservation();
+				int ticketNo = randomticketnumber.getReservationNumber();
+				
+				
+				
+				
+				
 				//new SeatUI(SeatUI).Frame[i].setVisible(true);			//->여기에서 좌석프레임 오픈
 				
 				 // Access the selected values through the MyItemListener instance
 				 // 이후 주석처리해도 상관없는 출력파트(확인용)
 				
-				//new Seat(id, itemListener.getSelectedDate(), itemListener.getSelectedTime(),
-				//		itemListener.getNOPtoInt(), ticketNum, ChooseDayAndTime(id)).setVisible(false);
+				new Seat(id, itemListener.getSelectedDate(), itemListener.getSelectedTime(),
+						itemListener.getNOPtoInt(), ticketNo);
 				
                 System.out.println(itemListener.getSelectedDate()
                        + " " + itemListener.getSelectedTime()
@@ -90,6 +100,10 @@ public class ChooseDayAndTime extends JFrame {
                 System.out.println("인원수 int형: " + itemListener.getNOPtoInt());			//인원 수를 String이 아닌 int형으로 받음
                 
                 System.out.println("id: " + id);
+                
+                System.out.println(ticketNo);
+                
+
                 
 			}
         });
@@ -176,44 +190,37 @@ public class ChooseDayAndTime extends JFrame {
 		
 		
 		
-		
-		//RandomTicketNumber reservationSystem = new RandomTicketNumber();
-		//reservationSystem.createNewReservation();
-		//public int ticketNum = RandomTicketNumber.getReservationNumber();
-		
-		
-		
-		
+		//랜덤 번호 부여 class
+		public class RandomTicketNumber {
+			
+			private int ticketNum;
+			private Set<Integer> usedReservationNumbers = new HashSet<>();		//중복 방지용 set
+
+		    public int getReservationNumber() {
+		        return ticketNum;
+		    }
+
+		    public void setReservationNumber(int ticketNum) {
+		        this.ticketNum = ticketNum;
+		    }
+
+		    public void createNewReservation() {
+		        this.ticketNum = generateUniqueReservationNumber();
+		    }
+
+		    private int generateUniqueReservationNumber() {
+		        Random random = new Random();
+		        int randomReservationNumber;
+		        do {
+		            randomReservationNumber = random.nextInt(9000) + 1000;		//4자리의 랜덤한 번호 부여
+		        } while (usedReservationNumbers.contains(randomReservationNumber));
+		        usedReservationNumbers.add(randomReservationNumber);
+		        return randomReservationNumber;
+		    }
+
+		}
 		
 		
 
-/*		public void actionPerformed(ActionEvent e) { 
-			int performDate = scheduleDay.getSelectedIndex();			//a[i] => i일
-			int performTime1 = scheduleTime1.getSelectedIndex();		
-			int performTime2 = scheduleTime2.getSelectedIndex(); 	
-			int ticket = NumberOfPeople.getSelectedIndex();				//d[i] = i명
-			int nop=0;
-			Object time = "";
-			Object date = "";
-		  
-			if(ticket==0 || performTime1==0 || performTime2==0 || performDate==0){ 
-			  new Message(new JFrame(""), null,null,"선택하지않은 항목이 있습니다",null,false,null); 
-			}else {
-			  if(ticket!=0&&(performTime1!=0&&performDate!=0)) {
-				  nop+=ticket;
-				  time = scheduleTime1.getSelectedItem();
-				  date = scheduleDay.getSelectedItem();
-			  }else if(ticket!=0&&(performTime2!=0&&performDate!=0)) {
-				  nop+=ticket;
-				  time = scheduleTime2.getSelectedItem();
-				  date = scheduleDay.getSelectedIndex();
-			  }
-			  ChooseDayAndTime.this.setVisible(false);
-			  Seat seat = new Seat(id, date, time, nop,ticketNo, ChooseDayAndTime.this);
-			  seat.setVisible(true);
-			}
-		}
-		 
-*/		
 
 }

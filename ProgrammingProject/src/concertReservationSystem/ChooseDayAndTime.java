@@ -25,7 +25,7 @@ public class ChooseDayAndTime extends JFrame {
 	private JComboBox<String> scheduleTime1 = new JComboBox<String>(time1);
 	private JComboBox<String> scheduleTime2 = new JComboBox<String>(time2);
 	private JComboBox<String> NumberOfPeople = new JComboBox<String>(PeopleCount);
-	
+	int ticketNo;
 	
 	
 	private Font comboBoxFont = new Font(null, Font.PLAIN, 14);
@@ -157,7 +157,7 @@ public class ChooseDayAndTime extends JFrame {
 				  date = scheduleDay.getSelectedIndex();
 			  }
 			  ChooseDayAndTime.this.setVisible(false);
-			  Seat seat = new Seat(id, date, time, nop, ChooseDayAndTime.this);
+			  Seat seat = new Seat(id, date, time, nop,ticketNo, ChooseDayAndTime.this);
 			  seat.setVisible(true);
 			}
 		}

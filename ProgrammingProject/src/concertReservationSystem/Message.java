@@ -8,7 +8,7 @@ public class Message extends Dialog implements ActionListener{
 	boolean id = false;				//id값을 거짓으로 설정
 	Button ok,cancel;					//버튼
 	JFrame parent;
-	Message(JFrame frame, String id,String ticketNum,String msg,String seats, boolean okcancel,JFrame parent)
+	Message(JFrame frame, String id,String ticketNo,String msg,String seats, boolean okcancel,JFrame parent)
 	{
 		super(frame, "Message", true);		//Message의 프레임 설정
 		this.parent = parent;
@@ -16,7 +16,7 @@ public class Message extends Dialog implements ActionListener{
 		Container panel = frame.getContentPane();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		if(id!=null) panel.add(new Label(id));
-		if(ticketNum!=null) panel.add(new Label(ticketNum));
+		if(ticketNo!=null) panel.add(new Label(ticketNo));
 		if(seats!=null) panel.add(new Label(seats));
 		panel.add(new Label(msg));
 		add(panel);

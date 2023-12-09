@@ -21,7 +21,7 @@ public class Seat extends JFrame{
     ArrayList<String> ticket;
     int unReserved; //예약되지않은 좌석수
     
-    public Seat(String id, String date, int time, int people, final JFrame parent) {
+    public Seat(String id, String date, int time, int people,int ticketNo, final JFrame parent) {
     	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     	setSize(1500,1200);
     	setTitle("좌석선택");
@@ -77,15 +77,27 @@ public class Seat extends JFrame{
     				new Message(new JFrame("") ,null,null,"좌석을 전부 선택해주세요",null, false,null); 		// member가 0보다 크단것은 좌석을 전부선택 하지 않았다는 뜻
     			}
 				else {
-					String msg = movieName+"\t"+ticketNum+"\t"+price;								// 그게아니면 예매정보를 아래와 같이 가공함
+					String msg = id+"\t"+ticketNo+"\t";								// 그게아니면 예매정보를 아래와 같이 가공함
+					String seatGrade="\t";
 					String seats = "\t";
-					String etc = "시    간 : "+time+"   가     격 : "+price;
-					for(int i=0;i<49;i++) {															// 해당하는 좌석이 선택되면 true이기때문에
+					String etc = "12월 "+date+"일 "+time+"시 공연";
+					for(int i=0;i<30;i++) {															// 해당하는 좌석이 선택되면 true이기때문에
 						if(seatSelect[i])																// true인지 검사하고 맞으면 seats에 추가해줌
+							seatGrade="VIP";
+							seats+=(i+1)+",";
+					}
+					for(int i=30;i<90;i++) {															// 해당하는 좌석이 선택되면 true이기때문에
+						if(seatSelect[i])																// true인지 검사하고 맞으면 seats에 추가해줌
+							seatGrade="S";
+							seats+=(i+1)+",";
+					}
+					for(int i=80;i<180;i++) {															// 해당하는 좌석이 선택되면 true이기때문에
+						if(seatSelect[i])																// true인지 검사하고 맞으면 seats에 추가해줌
+							seatGrade="R";
 							seats+=(i+1)+",";
 					}
 					seats = seats.substring(0, seats.length()-1);									// seats의 마지막 문자가 ","이기때문에 그것을 없애주기위함
-					new Message(new JFrame("") ,"영화 이름 : "+movieName,"예약 번호 : "+ticketNum, etc,"좌     석   : "+seats, false,SeatFrame.this); // 가공한 정보를 msgbox로 띄움
+					new Message(new JFrame("") ,"ID : "+id,"예약 번호 : "+ticketNo, etc,"좌석: "+seatGrade+"석 "+seats+"번", false,Seat.this); // 가공한 정보를 msgbox로 띄움
 					msg +=seats+"\t"+time;
 					ticket.add(msg);																// 리스트에 역시 추가함
 					try {

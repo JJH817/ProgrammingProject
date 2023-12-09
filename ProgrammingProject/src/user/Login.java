@@ -108,7 +108,7 @@ public class Login extends JFrame {
 				}
 				
 				try{
-					BufferedReader reader = new BufferedReader(new FileReader("/Users/boou/git/ProgrammingProject/ProgrammingProject/src/resources/idpw.txt"));
+					BufferedReader reader = new BufferedReader(new FileReader("Users/boou/git/ProgrammingProject/ProgrammingProject/src/resources/idpw.txt"));
 					
 				        String str;
 				        ArrayList<String> txtmember = new ArrayList<>();
@@ -146,7 +146,7 @@ public class Login extends JFrame {
 				
 				if(login.equals("Succeed")) {
 					JOptionPane.showMessageDialog(null, "로그인 성공", "Message", JOptionPane.DEFAULT_OPTION);
-					new ChooseDayAndTime();
+					new ChooseDayAndTime(id);
 					return;
 				}else {
 					JOptionPane.showMessageDialog(null, "아이디 또는 비밀번호가 일치하지 않습니다", "Message", JOptionPane.DEFAULT_OPTION);	

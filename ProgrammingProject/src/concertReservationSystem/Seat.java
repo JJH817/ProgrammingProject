@@ -14,8 +14,6 @@ import java.io.*;
 
 public class Seat extends JFrame{
 	private static String seatGrade;
-	private static HashMap<String, Seat[]> seatmap = new HashMap<>();
-	private static HashMap<String, Map<Integer, ChooseDayAndTime>> reservationMap = new HashMap<>();
 	JPanel panel, seat; //패널
 	JLabel stage, seats[]; 
 	JButton cancel, admit; //취소, 확인
@@ -47,15 +45,15 @@ public class Seat extends JFrame{
         int maxSeatsAllowed = 2;
 
         if (totalReservedSeats + 1 >= maxSeatsAllowed) {
-        	new Message(new JFrame(""),null,null,"이미 해당 공연의 2자리 이상 예매하셨습니다.",null,false,null);
+        	new Message(new JFrame(""),null,null,"이미 해당 공연의 2자리 이상 예매하셨습니다.",null,false,Seat.this);
         }
 		Font f = new Font("Arial", Font.PLAIN, 20);
 		for(int i=0;i<3;i++) {
 			for(int j=0;j<10;j++) {
 				int k = i*10+j;
+				seats[k] = new JLabel("vip"+Integer.toString(k+1)); //vip석은 앞에서부터 3열
 				seats[k].setBackground(new Color(255,127,50)); // 좌석등급 구분을 위해 색을 다르게 설정
 				seats[k].setFont(f);
-				seats[k] = new JLabel("vip"+Integer.toString(k+1)); //vip석은 앞에서부터 3열
 				seats[k].setHorizontalAlignment(JLabel.CENTER);
 				seats[k].addMouseListener(new MouseAdapter() {
 					public void mouseClicked(MouseEvent arg0) {
@@ -71,15 +69,15 @@ public class Seat extends JFrame{
 						seats[k].setOpaque(true);
 					}
 				});
-				seat.add(seats[k]);//vip석 그리드를 생성
+				seat.add(seats[k]);//vip석 그리드를 생성	
 			}
 		}
 		for(int i=3;i<9;i++) {
 			for(int j=0;j<10;j++) {
 				int k = i*10+j;
+				seats[k] = new JLabel("s"+Integer.toString(k+1)); //vip석 뒷열부터 6줄이 s석
 				seats[k].setBackground(new Color(0,181,226)); // 좌석등급 구분을 위해 색을 다르게 설정
 				seats[k].setFont(f);
-				seats[k] = new JLabel("s"+Integer.toString(k+1)); //vip석 뒷열부터 6줄이 s석
 				seats[k].setHorizontalAlignment(JLabel.CENTER);
 				seats[k].addMouseListener(new MouseAdapter() {
 					public void mouseClicked(MouseEvent arg0) {
@@ -101,9 +99,9 @@ public class Seat extends JFrame{
 		for(int i=9;i<18;i++) {
 			for(int j=0;j<10;j++) {
 				int k = i*10+j;
+				seats[k] = new JLabel("s"+Integer.toString(k+1)); //r석 뒷열부터 9줄이 r석
 				seats[k].setBackground(new Color(255,205,0)); // 좌석등급 구분을 위해 색을 다르게 설정
 				seats[k].setFont(f);
-				seats[k] = new JLabel("s"+Integer.toString(k+1)); //r석 뒷열부터 9줄이 r석
 				seats[k].setHorizontalAlignment(JLabel.CENTER);
 				seats[k].addMouseListener(new MouseAdapter() {
 					public void mouseClicked(MouseEvent arg0) {
@@ -150,7 +148,7 @@ public class Seat extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(unReserved>0) {//예약할 좌석수가 남아있으면
-					new Message(new JFrame(""),null,null,"좌석을 전부 선택해주세요.",null,false,null);//전부 선택하라는 메시지를 띄워줌
+					new Message(new JFrame(""),null,null,"좌석을 전부 선택해주세요.",null,false,Seat.this);//전부 선택하라는 메시지를 띄워줌
 				}else{
 					String msg = id+"/"+date+"/"+time+"/";//전부 선택했으면 티켓정보에 들어갈 내용을 만듬
 					String seatGrade="";
@@ -204,14 +202,17 @@ public class Seat extends JFrame{
 	}
 	private static int getTotalreservedSeats(String id, String date, String time) {
 		int totalReservedSeats = 0;
-		try(BufferedReader br = new BufferedReader(new FileReader("src/resources/ticket.txt"))){
+		try(BufferedReader br = new BufferedReader(new FileReader("src/resources/ticketEx.txt"))){
 			String line;
 			while((line = br.readLine())!=null){
 				String[] parts = line.split("/");//"/"기준으로 분리
 				//분리된 값을 각각의 변수에 저장
 				String reservationId = parts[0];
 				int dateg = Integer.parseInt(parts[1]);
-				String timeRange = parts[1];
+				String timeRange = parts[2];
+				String seatGrade = parts[3];
+				int seatNumber = Integer.parseInt(parts[4]);
+				int reservationNumber = Integer.parseInt(parts[5]);
 				
 				//같은 날짜, 같은 시간대의 공연을 선택할경우
 				if(id.equals(reservationId)&&date.equals(dateg)&&time.equals(timeRange)) {

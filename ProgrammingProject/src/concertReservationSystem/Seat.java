@@ -1,6 +1,8 @@
 package concertReservationSystem;
 
 import concertReservationSystem.ChooseDayAndTime;
+import concertReserveation.ExceededMaxSeatsException;
+
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
@@ -10,7 +12,6 @@ import java.util.*;
 import java.io.*;
 
 public class Seat extends JFrame{
-	ChooseDayAndTime sda = new ChooseDayAndTime();
 	private String seatGrade; //좌석등급
 	private static HashMap<String, Seat[]> seatMap = new HashMap<>();
 	private static HashMap<String, Map<Integer, ChooseDayAndTime>> reservationMap = new HashMap<>();
@@ -21,12 +22,15 @@ public class Seat extends JFrame{
     ArrayList<String> ticket;
     int unReserved; //예약되지않은 좌석수
     
-    public Seat(String id, String date, int time, int people,int ticketNo, final JFrame parent) {
+    public Seat(String id, String date, String time, int people,int ticketNo) {
+    	ChooseDayAndTime.setVisible(true);
     	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     	setSize(1500,1200);
     	setTitle("좌석선택");
     	unReserved = people;
     	panel = new JPanel(null);
+    	date = getSelectedDate();
+    	time 
     	
     	stage = new JLabel("STAGE");
     	stage.setBackground(Color.white);
@@ -42,6 +46,19 @@ public class Seat extends JFrame{
     	seat.setOpaque(true);
     	hallSeats();
     	
+    	while(true) {
+    		int totalReservedSeats = new getTotalReservedSeats(String id, String date, String time);
+    		int maxSeatsAllowed = 2;
+    		if (totalReservedSeats >= maxSeatsAllowed) {
+                throw new ExceededMaxSeatsException("이미 " + maxSeatsAllowed + "자리 이상 예매하셨습니다.");
+            }
+    		if (getNOPtoInt == 2) { //2개 예매할 때
+                makeReservation(id, date, time, true);
+            } else if(getNOPtoInt == 1) { //1개 예매할 때
+                makeReservation(id, date, time, false);
+            }
+    	}
+    	
     	try {
     		FileReader fr = new FileReader("ticket.txt");
     		BufferedReader br = new BufferedReader(fr);
@@ -49,13 +66,25 @@ public class Seat extends JFrame{
     		while((str = br.readLine())!= null) {
     			ticket.add(str);
     			StringTokenizer st = new StringTokenizer(str);
-    			String name = st.nextToken("\t");
     			String str2 = st.nextToken("\t");
     			str2 = st.nextToken("\t");
-    			String seats = st.nextToken("\t");
+    			str2 = st.nextToken("\t");
+    			String sgrade = st.nextToken();
+    			String seat = st.nextToken("\t");
+    			String dat = st.nextToken("\t");
     			String tim = st.nextToken("\t");
-    			StringTokenizer st2 = new StringTokenizer(seats,",");
-    			System.out.println(seats);
+    			StringTokenizer st2 = new StringTokenizer(sgrade,"\t");
+    			StringTokenizer st3 = new StringTokenizer(seat,",");
+    			StringTokenizer st4 = new StringTokenizer(dat,"\t");
+    			StringTokenizer st5 = new StringTokenizer(tim,"\t");
+    			if(seatGrade.equals(sgrade)&&seats.equals(seat)&&date.equals(dat)&&time.equals(tim)) {
+    				while(st2.hasMoreTokens()) {
+    					str2 = st2.nextToken();
+    					int k = Integer.parseInt(str2);
+    					this.seats[k].setBackground(Color.black);
+    					this.seats[k].setOpaque(true);
+    				}
+    			}
     		}
     		br.close();
     		fr.close();
@@ -66,7 +95,7 @@ public class Seat extends JFrame{
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				parent.setVisible(true); //날짜선택창을 띄워줌
+				ChooseDayAndTime.setVisible(true); //날짜선택창을 띄워줌
 				Seat.this.dispose(); //좌석선택창을 처분
 			}        	
         });
@@ -80,7 +109,7 @@ public class Seat extends JFrame{
 					String msg = id+"\t"+ticketNo+"\t";								// 그게아니면 예매정보를 아래와 같이 가공함
 					String seatGrade="\t";
 					String seats = "\t";
-					String etc = "12월 "+date+"일 "+time+"시 공연";
+					String etc = date+"\t"+time+"\t공연";
 					for(int i=0;i<30;i++) {															// 해당하는 좌석이 선택되면 true이기때문에
 						if(seatSelect[i])																// true인지 검사하고 맞으면 seats에 추가해줌
 							seatGrade="VIP";
@@ -98,7 +127,7 @@ public class Seat extends JFrame{
 					}
 					seats = seats.substring(0, seats.length()-1);									// seats의 마지막 문자가 ","이기때문에 그것을 없애주기위함
 					new Message(new JFrame("") ,"ID : "+id,"예약 번호 : "+ticketNo, etc,"좌석: "+seatGrade+"석 "+seats+"번", false,Seat.this); // 가공한 정보를 msgbox로 띄움
-					msg +=seats+"\t"+time;
+					msg +=seatGrade+"\t"+seats+"\t"+etc;
 					ticket.add(msg);																// 리스트에 역시 추가함
 					try {
 						FileWriter fw = new FileWriter("ticket.txt"); 								// 이제 예매를 했으니 ticket.txt에 쓸것임
@@ -208,6 +237,15 @@ public class Seat extends JFrame{
         	}
         }
     }
+    private static void makeReservation(String id, String date, String time, boolean reserveTwoSeat){
+    	while(true) {
+    		try {
+    			if(reservedTwoSeat) {
+    				
+    			}
+    		}
+    	}
+    }
 
     private static int getTotalReservedSeats(String id, String date, String time) {
 		// 예매자가 예매한 총 좌석수를 보여주는 method
@@ -215,7 +253,7 @@ public class Seat extends JFrame{
 
         for (Map<Integer, ChooseDayAndTime> seatGradeMap : reservationMap.values()) {
             for (ChooseDayAndTime reservation : seatGradeMap.values()) { //이름과 전화번호 모두 일치하는 경우에만 totalReservedSeats 값이 증가. 동명이인이 예매할 경우를 상정
-                if (reservation.getName().equals(name)&& ChooseDayAndTime.getSelectedTime().equals(time)&&ChooseDayAndTime.getSelectedDate().equals(date)) {
+                if (reservation.getId().equals(id)&& ChooseDayAndTime.getSelectedTime().equals(time)&&ChooseDayAndTime.getSelectedDate().equals(date)) {
                     totalReservedSeats += ChooseDayAndTime.getSelectedNumberOfPeople();
                 }
             }

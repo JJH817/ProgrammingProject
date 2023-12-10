@@ -244,7 +244,7 @@ public class Join extends JDialog  {
 				}
 				
 				
-				//여기까지 왔다면 모든 값을 입력하고 선택하는 것이 완료되었으니 회원가입 과정이 완료.				
+								
 				userProgress = true;				
 				
 				JOptionPane.showMessageDialog(null, "회원 가입이 완료 되었습니다.","회원 가입 완료.", JOptionPane.WARNING_MESSAGE);

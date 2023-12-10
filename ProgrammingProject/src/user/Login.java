@@ -109,17 +109,17 @@ public class Login extends JFrame {
 				
 				try{
 					BufferedReader reader = new BufferedReader(new FileReader("/Users/boou/git/ProgrammingProject/ProgrammingProject/src/resources/idpw.txt"));
-					
+						//Users/boou/git/ProgrammingProject/ProgrammingProject/src/resources/idpw.txt
 				        String str;
 				        ArrayList<String> txtmember = new ArrayList<>();
 				        try {
 							while ((str = reader.readLine()) != null) {
 								txtmember.add(str);
 							}
-						} catch (Exception e1) {
+						} catch (IOException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
-						}   
+						}
 				        
 				        //reader.close();
 				        
@@ -136,8 +136,11 @@ public class Login extends JFrame {
 				            	login = "Succeed";
 				            }
 				        }				        
-				}catch(FileNotFoundException errmsg){
+				}catch (FileNotFoundException errmsg){
 					errmsg.printStackTrace();
+				} catch (ArrayIndexOutOfBoundsException e2) {
+					// TODO: handle exception
+					e2.printStackTrace();
 				}
 				
 //				catch(FileNotFoundException ) {
@@ -146,7 +149,7 @@ public class Login extends JFrame {
 				
 				if(login.equals("Succeed")) {
 					JOptionPane.showMessageDialog(null, "로그인 성공", "Message", JOptionPane.DEFAULT_OPTION);
-					new ChooseDayAndTime();
+					new BasicMenu(id);
 					return;
 				}else {
 					JOptionPane.showMessageDialog(null, "아이디 또는 비밀번호가 일치하지 않습니다", "Message", JOptionPane.DEFAULT_OPTION);	

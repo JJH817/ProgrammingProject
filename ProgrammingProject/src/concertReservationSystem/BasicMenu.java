@@ -6,21 +6,13 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 
-
-
 //예약버튼, 조회버튼(예약정보창 뜨고 취소버튼 + 확인버튼)
 public class BasicMenu extends JFrame {
 	JButton reservbtn = new JButton(" 예약하기 ");
 	JButton checkbtn = new JButton(" 조회하기 ");
 	
-	
-	
-	
     int reservthatTimeNum = 0;
     
-    
-    
-	
 	public BasicMenu(String id) {
 		setTitle("콘서트 예약 메뉴");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -31,7 +23,8 @@ public class BasicMenu extends JFrame {
 		c.add(reservbtn);
 		c.add(checkbtn);
 		
-		setSize(550,350);
+		setSize(550,80);
+		setLocation(578, 688);
 		setVisible(true);	
 	
 
@@ -56,8 +49,9 @@ public class BasicMenu extends JFrame {
 		                String reservationId = parts[0];
 		                int date = Integer.parseInt(parts[1]);
 		                String timeRange = parts[2];
-		                int seatNumber = Integer.parseInt(parts[3]);
-		                int reservationNumber = Integer.parseInt(parts[4]);
+		                String seatGrade = parts[3];
+		                int seatNumber = Integer.parseInt(parts[4]);
+		                int reservationNumber = Integer.parseInt(parts[5]);
 
 		                
 		                // 사용자가 입력한 ID를 포함하는 경우에만 출력
@@ -66,11 +60,14 @@ public class BasicMenu extends JFrame {
 		                    System.out.println("Reservation ID: " + reservationId);
 		                    System.out.println("Date: " + date);
 		                    System.out.println("Time Range: " + timeRange);
+		                    System.out.println("Seat Grade: " + seatGrade);
 		                    System.out.println("Seat Number: " + seatNumber);
 		                    System.out.println("Reservation Number: " + reservationNumber);
 		                    System.out.println("------------");
 		                    
 		                    reservthatTimeNum++;
+		                    
+		                    new CheckRes(reservationId, date, timeRange, seatGrade, seatNumber, reservationNumber);
 		                    
 		                    
 		                }
@@ -82,8 +79,6 @@ public class BasicMenu extends JFrame {
 		});
 	}
 	
-//	public static void main(String[] args) {
-//		new Menu("qwer");
-//	}
+
 	
 }

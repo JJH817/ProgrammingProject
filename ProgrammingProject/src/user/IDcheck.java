@@ -14,7 +14,6 @@ public class IDcheck {
 		}else{
 			return false;
 		}	
-//		return Pattern.matches("^[a-zA-Z]+[a-zA-Z0-9]{3,19}$", check);
 	}
 
 }

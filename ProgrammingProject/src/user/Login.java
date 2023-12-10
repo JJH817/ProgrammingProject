@@ -48,6 +48,8 @@ public class Login extends JFrame {
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(null);
 		
+		
+		// 로고, 라벨, 텍스트필드, 버튼 위치 및 사이즈
 		logoPanel.setBounds(10, 10, 530, 140);
 		getContentPane().add(logoPanel);
 		logoPanel.setBackground(Color.WHITE);
@@ -78,8 +80,6 @@ public class Login extends JFrame {
 		pwTextField.setBounds(80, 70, 280, 20);
 		idpwPanel.add(pwTextField);
 		
-		
-		
 		joinfindPanel.setBounds(10, 280, 530, 30);
 		joinfindPanel.setLayout(null);
 		joinfindPanel.setBackground(Color.WHITE);
@@ -95,6 +95,7 @@ public class Login extends JFrame {
 		joinBtn.setBounds(420, 1, 100, 20);
 		joinfindPanel.add(joinBtn);
 		
+		// 로그인 버튼 클릭시
 		loginBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -121,7 +122,7 @@ public class Login extends JFrame {
 							e1.printStackTrace();
 						}
 				        
-				        //reader.close();
+				        
 				        
 				        
 				        HashMap<String,String> memberlist = new HashMap<>();
@@ -136,7 +137,7 @@ public class Login extends JFrame {
 				            	login = "Succeed";
 				            }
 				        }				        
-				}catch (FileNotFoundException errmsg){
+				} catch (FileNotFoundException errmsg){
 					errmsg.printStackTrace();
 				} catch (ArrayIndexOutOfBoundsException e2) {
 					// TODO: handle exception
@@ -165,6 +166,7 @@ public class Login extends JFrame {
 		});
 		
 		
+		// 회원가입 버튼 클릭시
 		joinBtn.addActionListener(new ActionListener() {
 			
 			@Override

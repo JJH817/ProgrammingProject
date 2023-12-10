@@ -4,3 +4,11 @@ qwert/12345
 12345/1234
 qwer/1234
 abcd/9999qaz/123
+asdf1234/asdf1234!
+test1/asdf1234!/test1@test.com
+test2/asdf1234!/test1@test.com
+test3/asdf1234!/test1@test.com
+test4/asdf1234!/test1@test.com
+test5/asdf1234!/text1@text.com
+text5/asdf1234!/test1@test.com
+test6/asdf1234!/test1@test.com

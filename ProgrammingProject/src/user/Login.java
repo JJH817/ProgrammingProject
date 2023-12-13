@@ -30,8 +30,6 @@ public class Login extends JFrame {
 	private JTextField idTextField = new JTextField();
 	private JPasswordField pwTextField = new JPasswordField();
 	private JButton loginBtn = new JButton("로그인");
-	private JButton idfindBtn = new JButton("아이디 찾기");
-	private JButton pwfindBtn = new JButton("비밀번호 찾기");
 	private JButton joinBtn = new JButton("회원가입");
 	
 
@@ -86,11 +84,6 @@ public class Login extends JFrame {
 		getContentPane().add(joinfindPanel);
 		
 		
-		idfindBtn.setBounds(10, 1, 100, 20);
-		joinfindPanel.add(idfindBtn);
-
-		pwfindBtn.setBounds(210, 1, 100, 20);
-		joinfindPanel.add(pwfindBtn);
 		
 		joinBtn.setBounds(420, 1, 100, 20);
 		joinfindPanel.add(joinBtn);
@@ -159,11 +152,7 @@ public class Login extends JFrame {
 			}
 		});
 		
-		idfindBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-			}
-		});
+
 		
 		
 		// 회원가입 버튼 클릭시
